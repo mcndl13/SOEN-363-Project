@@ -18,6 +18,8 @@ Some of the following high-level entities we could use:
 - API Type: RESTful API
 - Source 2: https://soccersapi.com/
 - API Type: RESTful API
+- Source 3: https://rapidapi.com/Creativesdev/api/free-api-live-football-data
+- API Type: RESTful API
 
 ### Implementation Platform
 Proposed RDBMS: PostgreSQL
