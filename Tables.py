@@ -1,11 +1,12 @@
 import psycopg2
 
 DB_CONFIG = {
-    "dbname": "soccer_db",  # Replace with your database name
-    "user": "your_username",  # Replace with your PostgreSQL username
-    "password": "your_password",  # Replace with your PostgreSQL password
-    "host": "localhost",  # Or your host address
-    "port": "5432",  # Default PostgreSQL port
+    #Put own credentials
+    "dbname": "SoccerSOEN363",
+    "user": "postgres",
+    "password": "Soccer0412",
+    "host": "localhost",
+    "port": "5432",
 }
 
 SQL_CREATE_TABLES = """
