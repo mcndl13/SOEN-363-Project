@@ -16,9 +16,7 @@ Some of the following high-level entities we could use:
 ### Data sources
 - Source 1: https://www.api-football.com/
 - API Type: RESTful API
-- Source 2: https://soccersapi.com/
-- API Type: RESTful API
-- Source 3: https://rapidapi.com/Creativesdev/api/free-api-live-football-data
+- Source 2: https://rapidapi.com/Creativesdev/api/free-api-live-football-data
 - API Type: RESTful API
 
 ### Implementation Platform
