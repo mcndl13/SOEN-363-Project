@@ -2,11 +2,11 @@ import psycopg2
 
 DB_CONFIG = {
     #Put own credentials
-    "dbname": "SoccerSOEN363",
-    "user": "postgres",
-    "password": "Soccer0412",
-    "host": "localhost",
-    "port": "5432",
+    "dbname": "",
+    "user": "",
+    "password": "",
+    "host": "",
+    "port": "",
 }
 
 SQL_CREATE_TABLES = """
