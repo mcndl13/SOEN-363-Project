@@ -1,6 +1,10 @@
 from db_config import get_connection
 
 SQL_CREATE_TABLES = """
+CREATE TYPE MatchResult AS ENUM ('Win', 'Draw', 'Loss');
+
+CREATE DOMAIN AgeDomain AS INT CHECK (VALUE > 0 AND VALUE < 100);
+
 CREATE TABLE IF NOT EXISTS League (
     LeagueID INT PRIMARY KEY,
     Name VARCHAR(225),
@@ -24,6 +28,14 @@ CREATE TABLE IF NOT EXISTS Teams (
     Country VARCHAR(225)
 );
 
+CREATE TABLE IF NOT EXISTS ExternalTeamMapping (
+    MappingID SERIAL PRIMARY KEY,
+    TeamID INT NOT NULL,
+    ExternalAPIID VARCHAR(225) NOT NULL,
+    FOREIGN KEY (TeamID) REFERENCES Teams(TeamID),
+    UNIQUE (ExternalAPIID)
+);
+
 CREATE TABLE IF NOT EXISTS TeamLeagues (
     TeamLeagueID SERIAL PRIMARY KEY,
     TeamID INT NOT NULL,
@@ -38,22 +50,37 @@ CREATE TABLE IF NOT EXISTS TeamLeagues (
 CREATE TABLE IF NOT EXISTS Matches (
     MatchID INT PRIMARY KEY,
     Date DATE,
-    HomeTeamID INT,
-    AwayTeamID INT,
+    HomeTeamID INT NOT NULL,
+    AwayTeamID INT NOT NULL,
     SeasonID INT NOT NULL,
-    Result VARCHAR(225),
+    Result MatchResult, -- Use ENUM type
     FOREIGN KEY (HomeTeamID) REFERENCES Teams(TeamID),
     FOREIGN KEY (AwayTeamID) REFERENCES Teams(TeamID),
-    FOREIGN KEY (SeasonID) REFERENCES Seasons(SeasonID)
+    FOREIGN KEY (SeasonID) REFERENCES Seasons(SeasonID),
+    CONSTRAINT no_self_match CHECK (HomeTeamID <> AwayTeamID) -- Prevent self-matches
 );
 
 CREATE TABLE IF NOT EXISTS Players (
     PlayerID INT PRIMARY KEY,
     Name VARCHAR(225),
-    Age INT,
+    Age AgeDomain, -- Use domain for age validation
     Nationality VARCHAR(225),
     TeamID INT NOT NULL,
     FOREIGN KEY (TeamID) REFERENCES Teams(TeamID)
+);
+
+CREATE TABLE IF NOT EXISTS Goalkeeper (
+    PlayerID INT PRIMARY KEY,
+    CleanSheets INT DEFAULT 0,
+    PenaltySaves INT DEFAULT 0,
+    FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)
+);
+
+CREATE TABLE IF NOT EXISTS Defender (
+    PlayerID INT PRIMARY KEY,
+    Tackles INT DEFAULT 0,
+    Interceptions INT DEFAULT 0,
+    FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID)
 );
 
 CREATE TABLE IF NOT EXISTS MatchStatistics (
@@ -66,7 +93,7 @@ CREATE TABLE IF NOT EXISTS MatchStatistics (
     RedCards INT DEFAULT 0,
     FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
     FOREIGN KEY (MatchID) REFERENCES Matches(MatchID),
-    UNIQUE (PlayerID, MatchID)  -- Unique constraint added
+    UNIQUE (PlayerID, MatchID)
 );
 """
 
