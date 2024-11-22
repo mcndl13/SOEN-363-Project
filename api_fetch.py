@@ -1,11 +1,11 @@
 import requests
 
-url = "https://free-api-live-football-data.p.rapidapi.com/football-get-list-all-team"
+url = "https://free-api-live-football-data.p.rapidapi.com/football-players-search"
 
-querystring = {"leagueid":"42"}
+querystring = {"search":"m"}
 
 headers = {
-	"x-rapidapi-key": "397db05a70msha1c30e10fb13342p107ec9jsn69f97db5281d",
+	"x-rapidapi-key": "2f59023b7emsh37f0abcdaa2852ap121f0cjsnf4d3d497819b",
 	"x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com"
 }
 
