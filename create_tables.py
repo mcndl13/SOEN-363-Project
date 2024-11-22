@@ -1,7 +1,7 @@
 from db_config import get_connection
 
 SQL_CREATE_TABLES = """
-CREATE TYPE MatchResult AS ENUM ('Win', 'Draw', 'Loss');
+CREATE TYPE MatchResult AS ENUM ('Home', 'Draw', 'Away');
 
 CREATE DOMAIN AgeDomain AS INT CHECK (VALUE > 0 AND VALUE < 100);
 
@@ -53,17 +53,27 @@ CREATE TABLE IF NOT EXISTS Matches (
     HomeTeamID INT NOT NULL,
     AwayTeamID INT NOT NULL,
     SeasonID INT NOT NULL,
-    Result MatchResult, -- Use ENUM type
+    Result MatchResult,
+    WinnerTeamID INT,
+    City VARCHAR(255),
+    Venue VARCHAR(255),
     FOREIGN KEY (HomeTeamID) REFERENCES Teams(TeamID),
     FOREIGN KEY (AwayTeamID) REFERENCES Teams(TeamID),
+    FOREIGN KEY (WinnerTeamID) REFERENCES Teams(TeamID),
     FOREIGN KEY (SeasonID) REFERENCES Seasons(SeasonID),
-    CONSTRAINT no_self_match CHECK (HomeTeamID <> AwayTeamID) -- Prevent self-matches
+    CONSTRAINT no_self_match CHECK (HomeTeamID <> AwayTeamID),
+    CONSTRAINT valid_winner CHECK (
+        WinnerTeamID IS NULL OR WinnerTeamID = HomeTeamID OR WinnerTeamID = AwayTeamID
+    )
 );
 
 CREATE TABLE IF NOT EXISTS Players (
     PlayerID INT PRIMARY KEY,
-    Name VARCHAR(225),
-    Age AgeDomain, -- Use domain for age validation
+    JerseyNumber INT,
+    Position VARCHAR(225),
+    LasttName VARCHAR(225),
+    FirstName VARCHAR(225),
+    Age AgeDomain,
     Nationality VARCHAR(225),
     TeamID INT NOT NULL,
     FOREIGN KEY (TeamID) REFERENCES Teams(TeamID)
@@ -84,16 +94,20 @@ CREATE TABLE IF NOT EXISTS Defender (
 );
 
 CREATE TABLE IF NOT EXISTS MatchStatistics (
-    StatID SERIAL PRIMARY KEY,
-    PlayerID INT NOT NULL,
-    MatchID INT NOT NULL,
-    Goals INT DEFAULT 0,
-    Assists INT DEFAULT 0,
-    YellowCards INT DEFAULT 0,
-    RedCards INT DEFAULT 0,
-    FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
+    StatID SERIAL PRIMARY KEY, -- Primary key for each statistic entry
+    MatchID INT NOT NULL,      -- Foreign key referencing Matches
+    PossessionHome INT,
+    PossessionAway INT,
+    ShotsOnTargetHome INT,
+    ShotsOnTargetAway INT,
+    ShotsOffTargetHome INT,
+    ShotsOffTargetAway INT,
+    CornersHome INT,
+    CornersAway INT,
+    FoulsHome INT,
+    FoulsAway INT,
     FOREIGN KEY (MatchID) REFERENCES Matches(MatchID),
-    UNIQUE (PlayerID, MatchID)
+    UNIQUE (MatchID) -- Ensure one row per match
 );
 """
 
