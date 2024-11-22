@@ -3,11 +3,11 @@ import psycopg2
 
 # Database connection details
 DB_CONFIG = {
-    "dbname": "SoccerSOEN363",
-    "user": "postgres",
-    "password": "Soccer0412",
-    "host": "localhost",
-    "port": "5432",
+    "dbname": "",
+    "user": "",
+    "password": "",
+    "host": "",
+    "port": "",
 }
 
 # API details
