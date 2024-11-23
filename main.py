@@ -1,10 +1,10 @@
-from api import fetch_league_data, fetch_season_data, fetch_country_data
+from create_tables import create_tables
+from API2_fetch_leagues_and_seasons import fetch_and_insert_leagues_and_seasons
 
-def main():
-    # Fetching data
-    fetch_league_data()
-    fetch_season_data()
-    fetch_country_data()
 
 if __name__ == "__main__":
-    main()
+    # Step 1: Create database tables
+    create_tables()
+
+    # Step 2: Populate foundational data
+    fetch_and_insert_leagues_and_seasons()

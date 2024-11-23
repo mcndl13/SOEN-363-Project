@@ -37,3 +37,22 @@ def fetch_country_data():
         'x-rapidapi-key': "62774e0697625ad93954c668d07ac020"
     }
     fetch_data(url, headers, "countries.json")
+
+    
+def fetch_league_data2():
+    url = "https://free-api-live-football-data.p.rapidapi.com/football-get-all-leagues-with-countries"
+    headers = {
+        'x-rapidapi-host': "free-api-live-football-data.p.rapidapi.com",
+        'x-rapidapi-key': "433c6bdd7fmshf10677331de36dap176b31jsn51a9b86bc9ea"
+    }
+    fetch_data(url, headers, "leagues.json")
+
+def main():
+    # Fetching data
+    # fetch_league_data()
+    # fetch_season_data()
+    # fetch_country_data()
+    fetch_league_data2()
+
+if __name__ == "__main__":
+    main()
