@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS Defender (
 );
 
 CREATE TABLE IF NOT EXISTS MatchStatistics (
-    StatID SERIAL PRIMARY KEY, -- Primary key for each statistic entry
-    MatchID INT NOT NULL,      -- Foreign key referencing Matches
+    StatID SERIAL PRIMARY KEY,
+    MatchID INT NOT NULL,     
     PossessionHome INT,
     PossessionAway INT,
     ShotsOnTargetHome INT,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS MatchStatistics (
     FoulsHome INT,
     FoulsAway INT,
     FOREIGN KEY (MatchID) REFERENCES Matches(MatchID),
-    UNIQUE (MatchID) -- Ensure one row per match
+    UNIQUE (MatchID)
 );
 """
 
