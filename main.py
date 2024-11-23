@@ -22,6 +22,3 @@ if __name__ == "__main__":
     # Populate match statistics
     fetch_and_insert_match_statistics()
 
-    # Populate position-specific tables
-    populate_goalkeeper_stats()
-    populate_defender_stats()
