@@ -66,9 +66,9 @@ def fetch_and_insert_leagues_and_seasons():
                     continue
 
                 
-                season_year = "2022"
-                start_date = "2022-08-01"
-                end_date = "2023-05-31" 
+                season_year = "2024"
+                start_date = "2024-08-01"
+                end_date = "2025-05-31" 
 
                 print(f"Inserting Season: {season_year} for LeagueID: {league_id}")
 
