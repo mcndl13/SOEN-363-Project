@@ -1,11 +1,11 @@
 import psycopg2
 
 DB_CONFIG = {
-    "dbname": "test2",
-    "user": "postgres",
-    "password": "",
-    "host": "localhost",
-    "port": "5433",
+    "dbname": "dbname",
+    "user": "user",
+    "password": "XXXXX",
+    "host": "host",
+    "port": "5432",
 }
 
 def get_connection():
