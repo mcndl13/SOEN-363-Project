@@ -106,7 +106,7 @@ FROM Teams
 WHERE FoundedYear > 1900;
 
 -- HARD-CODED view ( matches in sevilla)
-CREATE OR REPLACE VIEW MatchesInSevilla AS
+CREATE  VIEW MatchesinCity AS
 SELECT 
     Matches.MatchID,
     Matches.Date,
