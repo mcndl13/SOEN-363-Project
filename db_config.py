@@ -13,4 +13,3 @@ def get_connection():
         return psycopg2.connect(**DB_CONFIG)
     except Exception as e:
         print(f"Error connecting to the database: {e}")
-        return None
