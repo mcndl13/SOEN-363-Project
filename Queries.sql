@@ -122,7 +122,7 @@ INNER JOIN Teams AS AwayTeam ON Matches.AwayTeamID = AwayTeam.TeamID
 WHERE 
     Matches.City = 'Sevilla'; 
 
-SELECT * FROM MatchesInSevilla;
+SELECT * FROM MatchesinCity;
 -- Overlap Constraint
 SELECT TeamName
 FROM Teams
