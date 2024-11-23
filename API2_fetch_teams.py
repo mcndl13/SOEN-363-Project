@@ -14,24 +14,23 @@ def fetch_and_insert_teams():
     cur = conn.cursor()
 
     try:
-        # Step 1: Fetch the LeagueIDs from your League table
-        # Assuming you have a table called 'League' with LeagueIDs
-        cur.execute("SELECT LeagueID FROM League")  # Adjust this query to match your data structure
+      
+        cur.execute("SELECT LeagueID FROM League") 
         leagues = cur.fetchall()
         
         if not leagues:
             print("No leagues found in the database.")
             return
         
-        # Step 2: Loop through each league and fetch teams for that league using the API
+
         for league in leagues:
             league_id = league[0]  # Extract LeagueID
 
             print(f"Fetching teams for LeagueID: {league_id}")
             
-            # Step 3: Fetch teams for the specific league via the API
+
             url = "https://free-api-live-football-data.p.rapidapi.com/football-get-list-all-team"
-            querystring = {"leagueid": str(league_id)}  # Query with the leagueid
+            querystring = {"leagueid": str(league_id)}  
             
             response = requests.get(url, headers=API_HEADERS, params=querystring)
 
@@ -45,7 +44,7 @@ def fetch_and_insert_teams():
                 print(f"Error parsing JSON for LeagueID {league_id}: {e}")
                 continue
 
-            # Step 4: Process the team data from the response
+
             response_data = data.get("response")
             if not response_data or not isinstance(response_data, dict):
                 print(f"Unexpected 'response' format for LeagueID {league_id}. Full response: {response_data}")
@@ -56,7 +55,7 @@ def fetch_and_insert_teams():
                 print(f"No teams found for LeagueID {league_id}.")
                 continue
 
-            # Step 5: Insert teams into the Teams table
+            #Insert teams into the Teams table
             for team in teams:
                 if not isinstance(team, dict):
                     print(f"Unexpected element in teams for LeagueID {league_id}: {team}")
