@@ -3,7 +3,7 @@ from db_config import get_connection
 
 API_HEADERS = {
     "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com",
-    "x-rapidapi-key": "433c6bdd7fmshf10677331de36dap176b31jsn51a9b86bc9ea"
+    "x-rapidapi-key": "xxxxx"
 }
 
 def log_query(query):
