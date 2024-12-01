@@ -13,14 +13,14 @@ def main():
     clear_database()
 
     # File paths
-    league_file =           "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/league.csv"
-    season_file =           "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/seasons.csv"
-    teams_file =            "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/teams.csv"
-    mappings_file =         "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/external.csv"
-    matches_file =          "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/matches.csv"
-    players_file =          "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/players.csv"
-    team_leagues_file =     "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/teamleagues.csv"
-    match_statistics_file = "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase 2/CSV/stats.csv"
+    league_file =           "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/league.csv"
+    season_file =           "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/seasons.csv"
+    teams_file =            "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/teams.csv"
+    mappings_file =         "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/external.csv"
+    matches_file =          "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/matches.csv"
+    players_file =          "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/players.csv"
+    team_leagues_file =      "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/teamleagues.csv"
+    match_statistics_file = "/Users/mohamedgueye/Documents/Concordia/Fall 2024/SOEN 363/SOEN-363-Project/phase2/CSV/stats.csv"
 
     # Load data
     load_league(league_file)
