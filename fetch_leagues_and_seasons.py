@@ -26,7 +26,7 @@ def fetch_and_insert_leagues_and_seasons():
         
         for league in leagues:
             league_id = league["league"]["id"]
-            if not (1 <= league_id <= 5):  # Keep only leagues with IDs in [1, 5]
+            if not (1 <= league_id <= 800):  # Keep only leagues with IDs in [1, 5]
                 continue
 
             name = league["league"]["name"]

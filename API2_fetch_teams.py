@@ -3,7 +3,7 @@ from db_config import get_connection
 
 API_HEADERS = {
     "x-rapidapi-host": "free-api-live-football-data.p.rapidapi.com",
-    "x-rapidapi-key": "xxxxxxx"
+    "x-rapidapi-key": "xxxxx"
 }
 
 def fetch_and_insert_teams():
