@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS Players (
     PlayerID INT PRIMARY KEY,
     JerseyNumber INT,
     Position VARCHAR(225),
-    LasttName VARCHAR(225),
+    LastName VARCHAR(225),
     FirstName VARCHAR(225),
-    Age AgeDomain,
+    Age AgeDomain DEFAULT NULL, -- Default value set to NULL
     Nationality VARCHAR(225),
     TeamID INT NOT NULL,
     FOREIGN KEY (TeamID) REFERENCES Teams(TeamID)

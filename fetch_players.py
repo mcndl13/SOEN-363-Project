@@ -36,19 +36,31 @@ def fetch_and_insert_players():
 
             players = response.json().get("response", [])
             for player_data in players:
-
                 player = player_data["player"]
+                statistics = player_data.get("statistics", [])
+
+                # Extract player details
                 player_id = player["id"]
                 first_name = player["firstname"]
                 last_name = player["lastname"]
                 age = player.get("age", None)
                 nationality = player["nationality"]
-                jersey_number = player_data["statistics"][0]["games"]["number"]  
-                position = player_data["statistics"][0]["games"]["position"]
+
+                # Default values for optional fields
+                jersey_number = None
+                position = None
+                if statistics:
+                    jersey_number = statistics[0]["games"].get("number", None)
+                    position = statistics[0]["games"].get("position", None)
+
+                # Validate age against AgeDomain constraint
+                if age is not None and not (0 < age < 100):
+                    print(f"Skipping player {player_id} ({first_name} {last_name}) due to invalid age: {age}")
+                    continue
 
                 # Insert player details into the Players table
                 cur.execute("""
-                    INSERT INTO Players (PlayerID, JerseyNumber, Position, LasttName, FirstName, Age, Nationality, TeamID)
+                    INSERT INTO Players (PlayerID, JerseyNumber, Position, LastName, FirstName, Age, Nationality, TeamID)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (PlayerID) DO NOTHING;  -- Prevent duplicate entries
                 """, (player_id, jersey_number, position, last_name, first_name, age, nationality, team_id))

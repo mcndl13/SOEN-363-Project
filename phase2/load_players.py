@@ -20,7 +20,7 @@ def load_players(filepath):
                     jersey_number=int(row["jerseynumber"]) if row["jerseynumber"] != "NULL" else None,
                     position=row["position"],
                     first_name=row["firstname"],
-                    last_name=row["lasttname"],  # Matches typo in table definition
+                    last_name=row["LastName"],  # Matches typo in table definition
                     age=int(row["age"]) if row["age"] != "NULL" else None,
                     nationality=row["nationality"]
                 )
