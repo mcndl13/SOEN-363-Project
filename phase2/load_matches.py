@@ -1,13 +1,14 @@
 from py2neo import Node, Relationship
 from env_setup import graph
 from utils import load_csv
+from tqdm import tqdm  # Importing tqdm for the progress bar
 
 def load_matches(filepath):
     data = load_csv(filepath)
     if not data:
         return
 
-    for row in data:
+    for row in tqdm(data, desc="Loading Matches", unit="match"):
         try:
             home_team = graph.nodes.match("Team", team_id=int(row["hometeamid"])).first()
             away_team = graph.nodes.match("Team", team_id=int(row["awayteamid"])).first()

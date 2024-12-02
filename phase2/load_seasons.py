@@ -1,13 +1,14 @@
 from py2neo import Node, Relationship
 from env_setup import graph
 from utils import load_csv
+from tqdm import tqdm  # Importing tqdm for the progress bar
 
 def load_seasons(filepath):
     data = load_csv(filepath)
     if not data:
         return
 
-    for row in data:
+    for row in tqdm(data, desc="Loading Seasons", unit="season"):
         try:
             league = graph.nodes.match("League", league_id=int(row["leagueid"])).first()
             if league:
@@ -24,4 +25,3 @@ def load_seasons(filepath):
         except Exception as e:
             print(f"Error loading season {row.get('seasonid')}: {e}")
     print("Seasons loaded successfully.")
-

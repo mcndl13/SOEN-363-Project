@@ -6,11 +6,6 @@ API_HEADERS = {
     "x-rapidapi-key": "xxxxx"
 }
 
-def log_query(query):
-    # Write the query exactly as it is into the text file
-    with open("queries_log.txt", "a") as log_file:
-        log_file.write(f"{query}\n")
-
 def fetch_and_insert_players():
     conn = get_connection()
     if conn is None:
@@ -80,14 +75,9 @@ def fetch_and_insert_players():
 
                         # Insert player into Players table
                         insert_player_query = f"""
-                            INSERT INTO Players (PlayerID, FirstName, LasttName, JerseyNumber, Nationality, TeamID, Age, Position) 
+                            INSERT INTO Players (PlayerID, FirstName, LastName, JerseyNumber, Nationality, TeamID, Age, Position) 
                             VALUES ({player_id}, '{first_name}', '{last_name}', {jersey_number}, '{nationality}', {team_id}, 1, '{position}');
                         """
-
-
-                        # Log the query in the required format (just the query)
-                        log_query(insert_player_query)
-
                         cur.execute(insert_player_query)
 
                         # For Goalkeepers, insert into Goalkeeper table
@@ -96,8 +86,6 @@ def fetch_and_insert_players():
                                 INSERT INTO Goalkeeper (PlayerID) 
                                 VALUES ({player_id});
                             """
-          
-                            log_query(insert_goalkeeper_query)
                             cur.execute(insert_goalkeeper_query)
 
                         # For Defenders, insert into Defender table
@@ -106,8 +94,6 @@ def fetch_and_insert_players():
                                 INSERT INTO Defender (PlayerID) 
                                 VALUES ({player_id});
                             """
-             
-                            log_query(insert_defender_query)
                             cur.execute(insert_defender_query)
 
                     except KeyError as e:

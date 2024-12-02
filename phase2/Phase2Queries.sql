@@ -6,10 +6,6 @@ RETURN p;
 MATCH (t:Team {team_id: 101})
 RETURN t
 
-Before Index: 
-
-After Index: 
-
 2. Aggregate Data Query
 
 MATCH (p:Player)-[:PLAYS_FOR]->(t:Team)
@@ -17,10 +13,6 @@ RETURN t.team_id AS TeamID, COUNT(p) AS PlayerCount;
 
 MATCH (m:Match)-[:IN_SEASON]->(s:Season {season_id: 1})
 RETURN COUNT(m) AS matches_in_season
-
-Before Index: 
-
-After Index: 
 
 3. Top N Entities Query
 
@@ -33,10 +25,6 @@ MATCH (t:Team)<-[:HOME_TEAM|:AWAY_TEAM]-(m:Match)
 RETURN t.name AS team_name, COUNT(m) AS matches_played
 ORDER BY matches_played DESC
 LIMIT 5
-
-Before Index: 
-
-After Index: 
 
 4. Relational Group By Query (NoSQL Style Aggregate per Category)
 
@@ -77,9 +65,3 @@ CALL db.index.fulltext.queryNodes("team_name_fulltext", "Real")
 YIELD node AS t, score
 RETURN t.name, score
 ORDER BY score DESC;
-
-
-Before Index:
-
-After Index:
-

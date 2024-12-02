@@ -12,3 +12,5 @@ def load_csv(filepath):
     except Exception as e:
         print(f"Error reading file {filepath}: {e}")
         return []
+
+
