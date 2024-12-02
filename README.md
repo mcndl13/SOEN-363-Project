@@ -41,13 +41,60 @@ Scripting Language: SQL for database queries
 
 ## Phase 1
 ### 1. Design a relational database
-- How you provide the link between the two data sources. Note that the data that you are collecting may not necessarily use same keys/identifiers.
-- At least one IS-A relationship.
-- At least one example of a weak entity.
-- An example of a complex referential integrity (i.e. using assertions or triggers).
-- Examples of a hard-coded views that filters some rows and columns, based on the user access rights (i.e. a full access user may see all columns while a low-key user may only see certain columns and for a subset of data.
-- In addition to the above, demonstrate use of domains and types1
-- Make sure that no real domain data is used as internal keys (primary/foreign)2
-.
+### Design Considerations
+
+- **IS-A Relationship:**
+   - Players entity is the parent entity, Goalkeeper and Defender inherit from Players, each having specific attributes (e.g., CleanSheets for Goalkeepers, Tackles for Defenders).
+
+- **A weak entity:**
+   - The MatchStatistics table is a weak entity because it relies on the MatchID from Matches as part of its identity.
+
+- **A complex referential integrity (i.e. using assertions or triggers):**
+   - Ensure valid results in the Result attribute (e.g., “Win”, “Loss”, “Draw”).
+
+- **A hard-coded views that filters some rows and columns, based on the user access rights (i.e. a full access user may see all columns while a low-key user may only see certain columns and for a subset of data):**
+    - The view MatchesInCity filters matches that took place in the city of Sevilla. This view simplifies querying and allows users to easily retrieve match information specific to that city.
+
+- **Use of domains and types:**
+    - Limiting to only the 2023 season.
+  
 ### 2. Implement a relational database
-### 3. Populate the relational database from at least two various sources, by consuming public APIs
+We have designed a relational database schema to organize and store soccer data efficiently. The relational model uses multiple tables to capture entities such as Players, Teams, Matches, and more. 
+
+The database schema includes:
+- **Players**: Stores player information such as name, position, nationality, and related statistics.
+- **Teams**: Includes team information like team name, founding year, and country.
+- **Matches**: Stores match details such as date, home and away teams, and the final score.
+- **Leagues**: Contains league information, including league name and associated teams.
+- **MatchStatistics**: Contains statistics for matches, like possession, shots, and fouls.
+- **Goalkeepers/Defenders**: Inherit from the Players entity and store specific attributes relevant to the respective positions (e.g., CleanSheets for Goalkeepers, Tackles for Defenders).
+
+This schema was implemented by running Python scripts that are connected to the SQL database. 
+
+### 3. Populate the Relational Database from at Least Two Various Sources, by Consuming Public APIs
+
+The relational database is populated by consuming data from two public APIs that provide soccer-related statistics. These data sources are:
+
+1. **API Football** ([https://www.api-football.com/](https://www.api-football.com/)):
+   - A RESTful API that provides extensive soccer data, including player profiles, match statistics, league information, and more. We use this API to gather player information, match results, and team statistics.
+   
+2. **Free API Live Football Data** ([https://rapidapi.com/Creativesdev/api/free-api-live-football-data](https://rapidapi.com/Creativesdev/api/free-api-live-football-data)):
+   - This API also offers RESTful endpoints that provide live match data, player statistics, and league standings. We use this API to fetch real-time match data and incorporate it into our database.
+
+We process the data retrieved from these APIs using Python scripts. 
+
+## Phase 2: NoSQL Database Implementation
+### 1. Design a NoSQL Database
+
+For the NoSQL implementation, we will use **Neo4j**, a graph database, to store and manage soccer-related data. 
+
+We will write Python scripts to read data from the relational database and transfer it into Neo4j through CSV files. These scripts will use the **neo4j** Python driver to connect to the database and insert the data into  a CSV files that will be inserted as nodes and relationships.
+### Design Considerations
+
+
+During the transfer from the relational database to Neo4j, we may make some design modifications:
+- **IS-A Relationships**: In the relational model, we had separate tables for Goalkeepers, Defenders, and other player types. In Neo4j, we will model these as a single **Player** node with a property (e.g., `position`) to distinguish between different types of players. 
+- **Weak Entities**: Entities such as **MatchStatistics**, which were considered weak in the relational model, will now be embedded as relationships in Neo4j. For example, match statistics like possession, shots, and fouls will be stored as relationships between the **Match** node and the **Team** node, rather than as a separate entity.
+- **Relationships**: In Neo4j, relationships between entities (e.g., Players belong to Teams, Matches involve Teams, etc.) will be explicitly represented using **edges**. This allows us to efficiently query connected data and navigate relationships.
+
+
