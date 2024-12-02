@@ -98,3 +98,85 @@ During the transfer from the relational database to Neo4j, we may make some desi
 - **Relationships**: In Neo4j, relationships between entities (e.g., Players belong to Teams, Matches involve Teams, etc.) will be explicitly represented using **edges**. This allows us to efficiently query connected data and navigate relationships.
 
 
+# Report Document
+## Football Data Population System
+
+The **Football Data Population System** is built to integrate data from **Football API-Sports** and **Free API Live Football Data** into both **relational** and **NoSQL** databases. The system automates the process of fetching, processing, and storing data related to leagues, seasons, matches, teams, and match statistics. 
+
+---
+
+### Approach
+
+The system uses asynchronous HTTP requests to retrieve data from Football API-Sports. To handle large datasets and avoid API bans, data is processed in batches:
+1. **Filtering & Transformation**: The fetched data is filtered, validated, and transformed to match the schema of the target database.
+2. **Data Insertion**: After processing, the data is inserted into the database while applying deduplication strategies to avoid data conflicts.
+
+---
+
+### Key Components
+
+1. **Leagues and Seasons**: Handles the retrieval and storage of league details and their corresponding seasons.
+2. **Matches**: Collects match data, including fixtures and detailed match information for specific seasons and leagues.
+3. **Teams**: Extracts and stores information about teams and their affiliations with various leagues.
+4. **Match Statistics**: Processes match statistics, such as possession, fouls, shots, and more, and inserts them into the database.
+
+---
+
+### Database Interaction
+
+The system is designed around a relational database schema that includes the following entities:
+- Leagues
+- Seasons
+- Matches
+- Teams
+- Match Statistics
+
+During the data insertion process, the **SQL ON CONFLICT** clause is used to ensure no duplication occurs, maintaining data integrity.
+
+---
+
+### Error Handling
+
+The system is equipped with robust error-handling mechanisms:
+- **Retry Mechanism**: Uses **exponential backoff** to retry failed requests due to transient issues.
+- **Logging Failed Matches**: Matches with missing data or other errors are logged in a **failed_matches.txt** file for future reprocessing.
+
+---
+
+### Batch Processing
+
+The system performs batch processing to:
+- Minimize the load on the API and avoid overloading.
+- Prevent API bans by ensuring request frequency remains within allowed limits.
+
+---
+
+### Challenges
+
+#### 1. API Rate Limits
+- **Problem**: The API limits the number of requests that can be made within a given timeframe.
+- **Solution**: The system uses **batching with delays** between requests and implements a retry mechanism to handle `429 Too Many Requests` errors efficiently.
+
+#### 2. Data Completeness
+- **Problem**: Some matches may have incomplete statistics or missing team information.
+- **Solution**: Matches with incomplete data are flagged and logged in **failed_matches.txt** for future reprocessing.
+
+---
+
+### Future Improvements
+
+1. **Database Optimization**:
+   - Implement **indexing** to speed up query performance, especially for match statistics.
+   - Consider **partitioning** data based on seasons to optimize data retrieval.
+
+2. **Advanced Logging**:
+   - Develop a more robust **centralized logging system** to improve tracking of all failed requests and errors.
+
+3. **Automated Retry Mechanism**:
+   - Implement a script that automatically retries processing for matches recorded in **failed_matches.txt**.
+
+---
+
+### Conclusion
+
+The **Football Data Population System** provides a reliable and scalable solution for integrating football data into relational and NoSQL databases. It is designed to handle API rate limits and data inconsistencies through error handling strategies and efficient processing. With future improvements like advanced logging and automated retry mechanisms, the system will continue to grow in reliability and performance.
