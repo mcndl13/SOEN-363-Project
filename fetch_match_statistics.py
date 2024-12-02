@@ -28,7 +28,6 @@ def fetch_and_insert_match_statistics():
     cur = conn.cursor()
 
     try:
-        # Fetch unprocessed matches only
         cur.execute("""
             SELECT MatchID, HomeTeamID, AwayTeamID 
             FROM Matches 
@@ -44,11 +43,9 @@ def fetch_and_insert_match_statistics():
 
         print(f"Processing {len(matches)} matches...")
         
-        # Process matches asynchronously
         loop = asyncio.get_event_loop()
         statistics = loop.run_until_complete(process_matches(matches))
 
-        # Collect statistics for bulk insert
         statistics_to_insert = []
         for match_id, home_team_id, away_team_id, stat_data in zip(
             [match[0] for match in matches], 
@@ -70,7 +67,6 @@ def fetch_and_insert_match_statistics():
                 team_id = team_stats["team"]["id"]
                 stats = team_stats["statistics"]
 
-                # Home team statistics
                 if team_id == home_team_id:
                     possession_home = int(next((stat["value"].replace('%', '') if stat["value"] else 0 for stat in stats if stat["type"] == "Ball Possession"), 0))
                     shots_on_target_home = next((stat["value"] if stat["value"] else 0 for stat in stats if stat["type"] == "Shots on Goal"), 0)
@@ -78,7 +74,6 @@ def fetch_and_insert_match_statistics():
                     corners_home = next((stat["value"] if stat["value"] else 0 for stat in stats if stat["type"] == "Corner Kicks"), 0)
                     fouls_home = next((stat["value"] if stat["value"] else 0 for stat in stats if stat["type"] == "Fouls"), 0)
 
-                # Away team statistics
                 elif team_id == away_team_id:
                     possession_away = int(next((stat["value"].replace('%', '') if stat["value"] else 0 for stat in stats if stat["type"] == "Ball Possession"), 0))
                     shots_on_target_away = next((stat["value"] if stat["value"] else 0 for stat in stats if stat["type"] == "Shots on Goal"), 0)
@@ -91,7 +86,6 @@ def fetch_and_insert_match_statistics():
                 shots_off_target_home, shots_off_target_away, corners_home, corners_away, fouls_home, fouls_away
             ))
 
-        # Bulk insert statistics
         cur.executemany("""
             INSERT INTO MatchStatistics (
                 MatchID, PossessionHome, PossessionAway, ShotsOnTargetHome, ShotsOnTargetAway,
