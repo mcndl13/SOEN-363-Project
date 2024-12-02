@@ -1,19 +1,18 @@
 from py2neo import Node, Relationship
 from env_setup import graph
 from utils import load_csv
+from tqdm import tqdm  # Importing tqdm for the progress bar
 
 def load_match_statistics(filepath):
     data = load_csv(filepath)
     if not data:
         return
 
-    for row in data:
+    for row in tqdm(data, desc="Loading Match Statistics", unit="statistics"):
         try:
-            # Find the associated match
             match = graph.nodes.match("Match", match_id=int(row["matchid"])).first()
 
             if match:
-                # Create MatchStatistics node
                 match_stats = Node(
                     "MatchStatistics",
                     stat_id=int(row["statid"]),
@@ -30,7 +29,6 @@ def load_match_statistics(filepath):
                 )
                 graph.merge(match_stats, "MatchStatistics", "stat_id")
 
-                # Create relationship between Match and MatchStatistics
                 has_stats = Relationship(match, "HAS_STATISTICS", match_stats)
                 graph.create(has_stats)
         except Exception as e:

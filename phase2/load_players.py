@@ -32,4 +32,3 @@ def load_players(filepath):
         except Exception as e:
             print(f"Error loading player {row.get('playerid')}: {e}")
     print("Players loaded successfully.")
-
